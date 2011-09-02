@@ -398,6 +398,18 @@ static PyTypeObject PylibMC_ClientType = {
     0
 };
 
+#define MAX_ERROR_LENGTH 2048
+struct memcached_error_t
+{
+  memcached_st *root;
+  uint64_t query_id;
+  struct memcached_error_t *next;
+  memcached_return_t rc;
+  int local_errno;
+  size_t size;
+  char message[MAX_ERROR_LENGTH];
+};
+                
 /* }}} */
 
 #endif /* def __PYLIBMC_H__ */

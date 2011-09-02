@@ -1872,7 +1872,7 @@ static PyObject *PylibMC_Client_clone(PylibMC_Client *self) {
 
 static char *_get_lead(memcached_st *mc, char *buf, int n, const char *what,
         memcached_return error, const char *key, Py_ssize_t len) {
-    int sz = snprintf(buf, n, "error %d from %s", error, what);
+    int sz = snprintf(buf, n, "%s", mc->error_messages->message);
 
     /*
      * Need to protect from libmemcached versions as their
@@ -1911,7 +1911,7 @@ static void _set_error(memcached_st *mc, memcached_return error, char *lead) {
             }
         }
 
-        PyErr_Format(exc, "%s: %s", lead, memcached_strerror(mc, error));
+        PyErr_Format(exc, "%s", lead);
     }
 }
 
